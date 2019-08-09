@@ -78,6 +78,11 @@ def main():
             continue
 
         collection = mongoConnect(MONGO_URL, MONGO_DB, MONGO_COLLECTION)
-        collection.insert_many(participants)
+        for participant in participants:
+            collection.update_one(
+                participant,
+                {"$set":participant},
+                upsert=True,
+            )
 
 main()
