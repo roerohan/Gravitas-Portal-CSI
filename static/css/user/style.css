@@ -1,0 +1,168 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    color: #4286F4;
+    font-family: 'Dosis', sans-serif;
+}
+
+.row {
+    height: 100%;
+    width: 100%;
+    margin-left: 0px;
+}
+
+.logincolumn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-fluid {
+    height: 100vh;
+    padding: 0;
+}
+
+/* Typography */
+h1 {
+    font-weight: bold;
+}
+
+/* Left of page */
+/* Bars */
+.bars {
+    position: absolute;
+    top: 0;
+    left: 15vw;
+    /* For hover size changing; Without this it is hidden under the div due to position absolute */
+    z-index:1;
+    /* Hidden on mobile */
+    display: none;
+}
+
+.bars>div {
+    width: 1.5rem;
+    margin-right: 1rem;
+
+    background-image: linear-gradient(to bottom, #0099ff, #6666ff);
+    border-radius: 0 0 0.75rem 0.75rem;
+    transition: height .35s ease-in-out;
+}
+
+.bars :nth-child(1) {
+    height: 15vh;
+}
+
+.bars :nth-child(2) {
+    height: 17vh;
+}
+
+.bars :nth-child(3) {
+    height: 12vh;
+}
+
+.bars :nth-child(1):hover {
+    height: 20vh;
+}
+
+.bars :nth-child(2):hover {
+    height: 22vh;
+}
+
+.bars :nth-child(3):hover {
+    height: 17vh;
+}
+
+/* Right of page */
+.section-right {
+    padding-right: 0;
+}
+
+.background-blues {
+    width: 100%;
+    padding: 4rem 2rem;
+
+    display: flex;
+    align-items: center;
+
+    background-image: linear-gradient(to bottom right, #0099ff, #6666ff);
+    border-radius: 25px 0 0 25px;
+}
+
+.card-login {
+    margin: 0 auto;
+
+    border-radius: 10px;
+}
+
+.card-login .card-title{
+    padding-bottom: 1.25rem;
+}
+
+.card-login form {
+    width: 100%;
+}
+
+.card-login .card-body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+
+    padding: 30px;
+}
+
+.form-group--full-width {
+    width: 100%;
+}
+
+input {
+    padding: .75em;
+    border: 1px #ddd solid;
+    background-repeat: no-repeat;
+}
+
+input:hover {
+    background-color: #f8f8f8;
+}
+
+@media (min-width: 576px) {
+    .bars {
+        display: flex;
+        justify-content: center;
+    }
+
+    .branding {
+        text-align: left;
+    }
+
+    .background-blues {
+        height: 80%;
+        border-radius: 50px 0 0 50px;
+    }
+}
+
+@media (min-width: 3800px) {
+
+    html {
+        font-size: 30px;
+    }
+
+    .card-login .card-body {
+        height: 50vh;
+        width: 25vw;
+        padding: 2.5rem;
+    }
+
+    .card-login {
+        border-radius: 2.1rem;
+    }
+
+    .background-blues {
+        border-radius: 3rem 0 0 3rem;
+    }
+}
