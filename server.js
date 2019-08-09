@@ -3,6 +3,8 @@
 //Import all necessary files
 require('./models/db');
 
+require('dotenv').config()
+
 const express = require('express');
 const exphbs = require('express-handlebars');
 
@@ -10,7 +12,7 @@ const bodyparser = require('body-parser');
 
 const path = require('path');
 const session = require('express-session');
-    
+
 const admin = require('./routes/admin');
 const authenticate = require('./routes/authenticate');
 
