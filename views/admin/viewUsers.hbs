@@ -22,7 +22,8 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Delete?</th>
+                <th>Payment Status</th>
+                <th>Event ID</th>
             </tr>
         </thead>
         <tbody>
@@ -31,10 +32,8 @@
                 <td>{{this.name}}</td>
                 <td>{{this.email}}</td>
                 <td>{{this.mobile}}</td>
-                <td>
-                    <a onclick="confirmDelete(this, event)" data-name="{{this.name}}" data-id="{{this.id}}"
-                        href="#">Delete</a>
-                </td>
+                <td>{{this.payment_status}}</td>
+                <td>{{this.event}}</td>
             </tr>
             {{/each}}
         </tbody>
