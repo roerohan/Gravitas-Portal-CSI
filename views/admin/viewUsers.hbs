@@ -7,16 +7,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
     <title>User List</title>
+    <style>
+        #participants_filter,
+        #participants_length {
+            display: none;
+        }
+
+        #participants_info {
+            clear: none;
+        }
+    </style>
 </head>
 
 <body>
+
     <h3 style="text-align: center; margin-top:15px;">Users</h3>
-    <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log Out</a></div>
+    <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log
+            Out</a></div>
     <p style="text-align: center; margin-top:15px">To refresh list, just reload this page.</p>
-    <p style="text-align: center; margin-top:15px; font-size:50px">No. of Entries: <strong>{{count}}</strong>
+    <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong>
     </p>
-    <table class="table table-striped" style="margin:10px 10px 10px 10px">
+    <div id="info"></div>
+    <table id="participants" style="width:100%">
         <thead>
             <tr>
                 <th>Name</th>
@@ -38,18 +54,37 @@
             {{/each}}
         </tbody>
     </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
     <script>
-        function confirmDelete(elem, event) {
-            event.preventDefault();
-            const username = elem.dataset.name;
-            const userCheck = prompt(`Enter the username ${username} to confirm.`);
-            const id = elem.dataset.id
-            if (username === userCheck) {
-                window.location = "/admin/delete/" + id;
-            } else {
-                alert("Username mismatch");
-            }
-        }
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#participants thead tr').clone(true).appendTo('#participants thead');
+            $('#participants thead tr:eq(1) th').each(function (i) {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+                $('input', this).on('keyup change', function () {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            var table = $('#participants').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                paging: false
+            });
+
+            $("#participants_info").detach().prependTo('#participants_wrapper');
+            $("#participants_paginate").detach().prependTo('#participants_wrapper');
+        });
     </script>
 </body>
 

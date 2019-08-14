@@ -19,30 +19,30 @@ router.use(adminCheck);
 
 //View all users based on some filter, leave blank if none
 router.get('/', (req, res) => {
-    User.find({
-        //Put conditions to filter, if any
-    }, (err, docs) => {
-        if (!err) {
-            User.countDocuments({
-                //Put conditions to filter counts, if any
-            }, (err, counter) => {
-                if (!err) {
-                    res.render("admin/viewUsers", {
-                        list: docs,
-                        count: counter
-                    });
-                } else {
-                    console.log(`/view - User.find/count - Error`)
-                    res.send("Server Error");
-                }
-            });
-        } else {
-            res.send("Could not get user list.");
-            console.log('Error in retrieving user list: ' + err);
+    User.aggregate([
+        {
+            $lookup: {
+                from: "events",
+                localField: "event",
+                foreignField: "gravitasID",
+                as: "eventInfo"
+            }
+        },
+        {
+            $project: {
+                name: 1,
+                email: 1,
+                mobile: 1,
+                payment_status: 1,
+                event: '$eventInfo.name'
+            }
         }
-    }).sort({
-        '_id': -1
-    });
+    ], (err, result) => {
+        res.render("admin/viewUsers", {
+            list: result,
+            count: result.length
+        });
+    })
 });
 
 //Add user from admin panel

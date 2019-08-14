@@ -7,26 +7,22 @@ var userSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
-        unique:true,
-        index:true,
     },
     type: {
-
+        type: String,
+        required:true
     },
     payment_status: {
-
+        type: String,
+        required:true
     },
     mobile:{
         type:String,
         required:true,
-        unique:true,
-        index:true,
     },
     email:{
         type:String,
         required:true,
-        unique:true,
-        index:true,
     },
     event: {
         type:String
