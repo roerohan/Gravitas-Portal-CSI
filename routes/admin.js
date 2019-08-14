@@ -19,6 +19,15 @@ router.use(adminCheck);
 
 //View all users based on some filter, leave blank if none
 router.get('/', (req, res) => {
+    const filter=req.query;
+    if (filter.event === "any") {
+        delete filter.event;
+    }
+
+    if (filter.payment_status === "any") {
+        delete filter.payment_status;
+    }
+
     User.aggregate([
         {
             $lookup: {
@@ -36,6 +45,9 @@ router.get('/', (req, res) => {
                 payment_status: 1,
                 event: '$eventInfo.name'
             }
+        },
+        {
+            $match: filter
         }
     ], (err, result) => {
         res.render("admin/viewUsers", {

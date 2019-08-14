@@ -7,84 +7,77 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
     <title>User List</title>
-    <style>
-        #participants_filter,
-        #participants_length {
-            display: none;
-        }
-
-        #participants_info {
-            clear: none;
-        }
-    </style>
 </head>
 
 <body>
+    <div class="container">
+        <h3 style="text-align: center; margin-top:15px;">Users</h3>
+        <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log
+                Out</a></div>
+        <p style="text-align: center; margin-top:15px">To refresh list, just reload this page.</p>
+        <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong>
+        </p>
+        <form action="/" method="GET">
+            <label for="event">Choose Event:</label>
+            <select id="eventSelect" name="event">
+                <option value="any">Any</option>
+                <option value="Laser Tag">Laser Tag</option>
+                <option value="Clickbait">Clickbait</option>
+            </select>
+            <br />
+            <label for="payment_status">Filter Payment Status:</label>
+            <select id="paymentSelect" name="payment_status">
+                <option value="any">Any</option>
+                <option value="Success">Success</option>
+                <option value="Pending">Pending</option>
+            </select>
+            <br />
+            <button type="submit">Filter</button>
+        </form>
+        <table id="participants" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Payment Status</th>
+                    <th>Event ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each list}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.mobile}}</td>
+                    <td>{{this.payment_status}}</td>
+                    <td>{{this.event}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 
-    <h3 style="text-align: center; margin-top:15px;">Users</h3>
-    <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log
-            Out</a></div>
-    <p style="text-align: center; margin-top:15px">To refresh list, just reload this page.</p>
-    <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong>
-    </p>
-    <div id="info"></div>
-    <table id="participants" class="table table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Payment Status</th>
-                <th>Event ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each list}}
-            <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.email}}</td>
-                <td>{{this.mobile}}</td>
-                <td>{{this.payment_status}}</td>
-                <td>{{this.event}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
     <script>
-        $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            $('#participants thead tr').clone(true).appendTo('#participants thead');
-            $('#participants thead tr:eq(1) th').each(function (i) {
-                var title = $(this).text();
-                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        let eventSelect = document.getElementById("eventSelect");
+        let paymentSelect = document.getElementById("paymentSelect");
 
-                $('input', this).on('keyup change', function () {
-                    if (table.column(i).search() !== this.value) {
-                        table
-                            .column(i)
-                            .search(this.value)
-                            .draw();
-                    }
-                });
-            });
+        let url = new URL(window.location.href);
+        let c = url.searchParams
 
-            var table = $('#participants').DataTable({
-                orderCellsTop: true,
-                fixedHeader: true,
-                paging: false
-            });
+        let event = c.get("event");
+        let payment_status = c.get("payment_status");
 
-            $("#participants_info").detach().prependTo('#participants_wrapper');
-            $("#participants_paginate").detach().prependTo('#participants_wrapper');
-        });
+        if (event) {
+            eventSelect.value = event;
+        }
+
+        if (payment_status) {
+            console.log(payment_status);
+            paymentSelect.value = payment_status;
+        }
+
     </script>
 </body>
 
