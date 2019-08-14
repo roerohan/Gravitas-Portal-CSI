@@ -12,12 +12,14 @@
 
 <body>
     <div class="container">
-        <h3 style="text-align: center; margin-top:15px;">Users</h3>
+        <h3 style="text-align: center; margin-top:15px;">Gravitas Participants</h3>
         <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log
                 Out</a></div>
-        <p style="text-align: center; margin-top:15px">To refresh list, just reload this page.</p>
-        <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong>
-        </p>
+        <p style="text-align: center; margin-top:15px">To refresh list, just reload this page or click the button below</p>
+        <div style="text-align:center"><button class="btn btn-success" onClick="window.location.reload();" style="margin-top:15px">Refresh Page</button></div>
+        
+        <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong></p>
+
         <form action="/" method="GET">
             <label for="event">Choose Event:</label>
             <select id="eventSelect" name="event">
@@ -35,6 +37,7 @@
             <br />
             <button type="submit">Filter</button>
         </form>
+        <div class="table-responsive">
         <table id="participants" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -57,6 +60,7 @@
                 {{/each}}
             </tbody>
         </table>
+        </div>
     </div>
 
     <script>
