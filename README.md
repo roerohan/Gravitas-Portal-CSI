@@ -21,6 +21,9 @@ A portal to scrape registrations for Gravitas events.
 ```
 
 3. Run `npm run populate` to populate the database. Every time you run `npm run populate`, the database will be updated (make it a cron job).
+
+> Note: This will work only if you have python3 installed as `python` (change it to `python3` in `package.json` otherwise). You would also need to install the requirements by going into the scripts folder and running `pip install -r requirements.txt`.
+
 4. Run `npm start` to start the server.
 5. After entering admin credentials, visit `/populate` and follow the instructions to add `gravitasID` and `name` to the database. You will need to form query strings of the form:
 
