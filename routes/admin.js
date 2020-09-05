@@ -37,7 +37,7 @@ router.get('/populate', async (req, res) => {
     res.send(`Successfully added ${gravitasID}: ${name}`);
 })
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const filter = req.query;
     if (filter.event === "any") {
         delete filter.event;
@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
         delete filter.payment_status;
     }
 
-    User.aggregate([
+    const result = await User.aggregate([
         {
             $lookup: {
                 from: "events",
@@ -69,14 +69,14 @@ router.get('/', (req, res) => {
         {
             $match: filter
         }
-    ], async (err, result) => {
-        const events = (await Event.find({}, {_id: 0, name: 1})).map((event) => event.name);
-        res.render("admin/viewUsers", {
-            list: result,
-            count: result.length,
-            events,
-        });
-    })
+    ]);
+    const events = (await Event.find({}, { _id: 0, name: 1 })).map((event) => event.name);
+
+    res.render("admin/viewUsers", {
+        list: result,
+        count: result.length,
+        events,
+    });
 });
 
 module.exports = router;

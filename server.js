@@ -1,10 +1,12 @@
 require('dotenv').config()
 require('./models/db');
-const express = require('express');
-const exphbs = require('express-handlebars');
-const bodyparser = require('body-parser');
 const path = require('path');
+const cron = require('node-cron');
+const express = require('express');
+const { exec } = require('child_process');
+const bodyparser = require('body-parser');
 const session = require('express-session');
+const exphbs = require('express-handlebars');
 
 const admin = require('./routes/admin');
 const authenticate = require('./routes/authenticate');
@@ -43,3 +45,13 @@ app.listen(port, () => {
 
 app.use('/auth', authenticate);
 app.use('/', admin);
+
+cron.schedule('* * * * *', () => {
+    exec('npm run populate', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`[ERROR]: ${error}`);
+            return;
+        }
+        console.log(stdout);
+    });
+})
