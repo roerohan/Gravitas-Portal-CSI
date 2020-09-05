@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>User List</title>
+</head>
+
+<body>
+    <div class="container">
+        <h3 style="text-align: center; margin-top:15px;">Gravitas Participants</h3>
+        <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log
+                Out</a></div>
+        <p style="text-align: center; margin-top:15px">To refresh list, just reload this page or click the button below
+        </p>
+        <div style="text-align:center"><button class="btn btn-success" onClick="window.location.reload();"
+                style="margin-top:15px">Refresh Page</button></div>
+
+        <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong>
+        </p>
+
+        <form action="/" method="GET">
+            <label for="event">Choose Event:</label>
+            <select id="eventSelect" name="event">
+                <option value="any">Any</option>
+                {{#each events}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+            <br />
+            <label for="payment_status">Filter Payment Status:</label>
+            <select id="paymentSelect" name="payment_status">
+                <option value="any">Any</option>
+                <option value="Success">Success</option>
+                <option value="Pending">Pending</option>
+            </select>
+            <br />
+            <button type="submit">Filter</button>
+        </form>
+        <div class="table-responsive">
+            <table id="participants" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Payment Status</th>
+                        <th>Event</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each list}}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.mobile}}</td>
+                        <td>{{this.payment_status}}</td>
+                        <td>{{this.event}}</td>
+                        <td>{{this.type}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let eventSelect = document.getElementById("eventSelect");
+        let paymentSelect = document.getElementById("paymentSelect");
+
+        let url = new URL(window.location.href);
+        let c = url.searchParams
+
+        let event = c.get("event");
+        let payment_status = c.get("payment_status");
+
+        if (event) {
+            eventSelect.value = event;
+        }
+
+        if (payment_status) {
+            console.log(payment_status);
+            paymentSelect.value = payment_status;
+        }
+
+    </script>
+</body>
+
+</html>
