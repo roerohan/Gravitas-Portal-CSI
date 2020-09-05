@@ -15,17 +15,21 @@
         <h3 style="text-align: center; margin-top:15px;">Gravitas Participants</h3>
         <div style="text-align:center"><a class="btn btn-secondary" href="/auth/adminLogout" style="margin-top:15px">Log
                 Out</a></div>
-        <p style="text-align: center; margin-top:15px">To refresh list, just reload this page or click the button below</p>
-        <div style="text-align:center"><button class="btn btn-success" onClick="window.location.reload();" style="margin-top:15px">Refresh Page</button></div>
-        
-        <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong></p>
+        <p style="text-align: center; margin-top:15px">To refresh list, just reload this page or click the button below
+        </p>
+        <div style="text-align:center"><button class="btn btn-success" onClick="window.location.reload();"
+                style="margin-top:15px">Refresh Page</button></div>
+
+        <p style="text-align: center; margin-top:15px; font-size:50px">Total No. of Entries: <strong>{{count}}</strong>
+        </p>
 
         <form action="/" method="GET">
             <label for="event">Choose Event:</label>
             <select id="eventSelect" name="event">
                 <option value="any">Any</option>
-                <option value="Laser Tag">Laser Tag</option>
-                <option value="Clickbait">Clickbait</option>
+                {{#each events}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
             </select>
             <br />
             <label for="payment_status">Filter Payment Status:</label>
@@ -38,28 +42,30 @@
             <button type="submit">Filter</button>
         </form>
         <div class="table-responsive">
-        <table id="participants" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Payment Status</th>
-                    <th>Event ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each list}}
-                <tr>
-                    <td>{{this.name}}</td>
-                    <td>{{this.email}}</td>
-                    <td>{{this.mobile}}</td>
-                    <td>{{this.payment_status}}</td>
-                    <td>{{this.event}}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+            <table id="participants" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Payment Status</th>
+                        <th>Event</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each list}}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.mobile}}</td>
+                        <td>{{this.payment_status}}</td>
+                        <td>{{this.event}}</td>
+                        <td>{{this.type}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
     </div>
 
