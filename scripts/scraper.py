@@ -1,16 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
-import pymongo
+from pymongo import MongoClient
 import json
 
 s = requests.session()
 
-BASE_URL = "http://info.vit.ac.in/gravitas2019/gravitas_coordinator_login.asp"
-LOGIN_URL = "http://info.vit.ac.in/gravitas2019/coord_login_authorize.asp"
-EVENTS_URL = "http://info.vit.ac.in/gravitas2019/coord_event_participants.asp"
-TABLE_URL = "http://info.vit.ac.in/gravitas2019/coord_event_participant_list.asp"
+BASE_URL = "http://info.vit.ac.in/gravitas2020/gravitas_coordinator_login.asp"
+LOGIN_URL = "http://info.vit.ac.in/gravitas2020/coord_login_authorize.asp"
+EVENTS_URL = "http://info.vit.ac.in/gravitas2020/coord_event_participants.asp"
+TABLE_URL = "http://info.vit.ac.in/gravitas2020/coord_event_participant_list.asp"
 
-MONGO_URL = "mongodb://localhost:27017"
+MONGO_URL = ""
 MONGO_DB = "GravitasDB"
 MONGO_COLLECTION = "participants"
 
@@ -61,8 +61,9 @@ def get_table(s, event_id):
     return participants
 
 def mongoConnect(url, db, collection):
-    client = pymongo.MongoClient(url)
-    collection = client[db][collection]
+    client = MongoClient(url)
+    database = client.get_database('GravitasDB')
+    collection = database.participants
     return collection
 
 def main():
