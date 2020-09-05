@@ -58,5 +58,6 @@ https://somedomain.com/populate?gravitasID=GKSomething&name=Clickbait
 ```
 
 5. Visit the home page to view all entries.
+6. Entries are repopulated every 10 minutes by default.
 
 > Note: You can run `npm run populate` to populate the database. A cron job automatically populates the database in `server.js`.
