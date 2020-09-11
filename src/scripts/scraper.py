@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 s = requests.session()
-env_path = Path('..') / '.env'
+env_path = Path('../..') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 MONGO_URL = os.getenv('MONGO_URL')
