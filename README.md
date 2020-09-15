@@ -29,9 +29,6 @@ cd scripts
 pip install -r requirements.txt
 ```
 
-> Note: If python 3 is called `python3` (instead of `python`) on your system, change the `populate` script in `package.json` to `python3 scraper.py`.
-
-
 ## Execution
 
 1. Make a file called `.env` in the project root and add environment variables as specified in `sample.env`.
