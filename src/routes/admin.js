@@ -67,9 +67,13 @@ router.get('/', async (req, res) => {
             }
         },
         {
-            $match: filter
+            $match: filter,
+        },
+        {
+            $sort: { event: -1 },
         }
     ]);
+
     const events = (await Event.find({}, { _id: 0, name: 1 })).map((event) => event.name);
 
     res.render("admin/viewUsers", {
