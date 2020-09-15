@@ -98,13 +98,15 @@ if __name__ == '__main__':
         except:
             continue
 
+        print(participants)
+
         print('[UPDATE] Fetched participants.')
         print('[UPDATE] Adding entries to database.')
 
         collection = mongoConnect(MONGO_URL, MONGO_DB, MONGO_COLLECTION)
         for participant in participants:
             collection.update_one(
-                participant,
+                {"email": participant['email']},
                 {"$set":participant},
                 upsert=True,
             )
