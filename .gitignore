@@ -61,4 +61,4 @@ typings/
 .next
 
 
-scripts/credentials.json
+src/scripts/credentials.json
