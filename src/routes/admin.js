@@ -3,6 +3,13 @@ const router = express.Router();
 
 const { User, Event } = require('../models/user.model');
 
+function tokenLogin(req, _res, next) {
+    if (req.query.token === process.env.LOGIN_TOKEN) {
+        req.session.admin = true;
+    }
+    next();
+}
+
 function adminCheck(req, res, next) {
     if (req.session.admin) {
         next();
@@ -11,6 +18,7 @@ function adminCheck(req, res, next) {
     }
 }
 
+router.use(tokenLogin);
 router.use(adminCheck);
 
 router.get('/populate', async (req, res) => {
@@ -38,12 +46,15 @@ router.get('/populate', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    const filter = req.query;
-    if (filter.event === "any") {
+    let { event, payment_status } = req.query;
+
+    const filter = { event, payment_status };
+
+    if (!event || event === "any") {
         delete filter.event;
     }
 
-    if (filter.payment_status === "any") {
+    if (!payment_status || payment_status === "any") {
         delete filter.payment_status;
     }
 
@@ -73,7 +84,7 @@ router.get('/', async (req, res) => {
             $sort: { event: -1 },
         }
     ]);
-
+    
     const events = (await Event.find({}, { _id: 0, name: 1 })).map((event) => event.name);
 
     res.render("admin/viewUsers", {
